@@ -1,0 +1,32 @@
+# Konfigurationsdatei für Schulbox-Konfigurator LIVE
+
+client_id = "15d4e4981c4a7b8936f83ba81e11cad7"
+name = "schulbox-konfigurator"
+handle = "schulbox-konfigurator"
+application_url = "https://schulbox-konfigurator.vercel.app"
+embedded = true
+
+[build]
+include_config_on_deploy = true
+automatically_update_urls_on_dev = true
+
+[access_scopes]
+scopes = "write_products,read_products"
+
+[auth]
+redirect_urls = [
+  "https://schulbox-konfigurator.vercel.app/auth/callback",
+  "https://schulbox-konfigurator.vercel.app/auth/shopify/callback",
+  "https://schulbox-konfigurator.vercel.app/api/auth/callback"
+]
+
+[webhooks]
+api_version = "2025-04"
+
+[[webhooks.subscriptions]]
+topics = ["app/uninstalled"]
+uri = "/webhooks/app/uninstalled"
+
+[[webhooks.subscriptions]]
+topics = ["app/scopes_update"]
+uri = "/webhooks/app/scopes_update"
