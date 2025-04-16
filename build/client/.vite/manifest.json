@@ -1,0 +1,178 @@
+{
+  "C:/Users/kamal/Desktop/Schulbox/App/schulbox-konfigurator/node_modules/@shopify/polaris/build/esm/styles.css": {
+    "file": "assets/styles-BeiPL2RV.css",
+    "src": "C:/Users/kamal/Desktop/Schulbox/App/schulbox-konfigurator/node_modules/@shopify/polaris/build/esm/styles.css"
+  },
+  "_List-7w2CLExn.js": {
+    "file": "assets/List-7w2CLExn.js",
+    "name": "List",
+    "imports": [
+      "_index-C_P7ACqV.js",
+      "_Page-DlYNw5FZ.js"
+    ]
+  },
+  "_Page-DlYNw5FZ.js": {
+    "file": "assets/Page-DlYNw5FZ.js",
+    "name": "Page",
+    "imports": [
+      "_index-C_P7ACqV.js",
+      "_context-Dmzg4qij.js"
+    ]
+  },
+  "_components-CWnDk2iX.js": {
+    "file": "assets/components-CWnDk2iX.js",
+    "name": "components",
+    "imports": [
+      "_index-C_P7ACqV.js"
+    ]
+  },
+  "_context-Dmzg4qij.js": {
+    "file": "assets/context-Dmzg4qij.js",
+    "name": "context",
+    "imports": [
+      "_index-C_P7ACqV.js"
+    ]
+  },
+  "_index-BecZrDTn.js": {
+    "file": "assets/index-BecZrDTn.js",
+    "name": "index",
+    "imports": [
+      "_index-C_P7ACqV.js"
+    ]
+  },
+  "_index-C_P7ACqV.js": {
+    "file": "assets/index-C_P7ACqV.js",
+    "name": "index"
+  },
+  "_styles-sszvf9xV.js": {
+    "file": "assets/styles-sszvf9xV.js",
+    "name": "styles",
+    "imports": [
+      "_index-C_P7ACqV.js",
+      "_context-Dmzg4qij.js"
+    ],
+    "assets": [
+      "assets/styles-BeiPL2RV.css"
+    ]
+  },
+  "app/root.tsx?__remix-build-client-route": {
+    "file": "assets/root-llOulCEr.js",
+    "name": "root",
+    "src": "app/root.tsx?__remix-build-client-route",
+    "isEntry": true,
+    "imports": [
+      "_index-C_P7ACqV.js",
+      "_components-CWnDk2iX.js"
+    ]
+  },
+  "app/routes/_index/route.tsx?__remix-build-client-route": {
+    "file": "assets/route-JrSvlit5.js",
+    "name": "route",
+    "src": "app/routes/_index/route.tsx?__remix-build-client-route",
+    "isEntry": true,
+    "imports": [
+      "_index-C_P7ACqV.js",
+      "_components-CWnDk2iX.js"
+    ],
+    "css": [
+      "assets/route-Cnm7FvdT.css"
+    ]
+  },
+  "app/routes/api.create-box.ts?__remix-build-client-route": {
+    "file": "assets/api.create-box-l0sNRNKZ.js",
+    "name": "api.create-box",
+    "src": "app/routes/api.create-box.ts?__remix-build-client-route",
+    "isEntry": true
+  },
+  "app/routes/app._index.tsx?__remix-build-client-route": {
+    "file": "assets/app._index-ByEKCsEE.js",
+    "name": "app._index",
+    "src": "app/routes/app._index.tsx?__remix-build-client-route",
+    "isEntry": true,
+    "imports": [
+      "_index-C_P7ACqV.js",
+      "_index-BecZrDTn.js",
+      "_components-CWnDk2iX.js",
+      "_Page-DlYNw5FZ.js",
+      "_List-7w2CLExn.js",
+      "_context-Dmzg4qij.js"
+    ]
+  },
+  "app/routes/app.additional.tsx?__remix-build-client-route": {
+    "file": "assets/app.additional-7IiQyn2p.js",
+    "name": "app.additional",
+    "src": "app/routes/app.additional.tsx?__remix-build-client-route",
+    "isEntry": true,
+    "imports": [
+      "_index-C_P7ACqV.js",
+      "_index-BecZrDTn.js",
+      "_Page-DlYNw5FZ.js",
+      "_List-7w2CLExn.js",
+      "_context-Dmzg4qij.js"
+    ]
+  },
+  "app/routes/app.tsx?__remix-build-client-route": {
+    "file": "assets/app-BdrpvUAF.js",
+    "name": "app",
+    "src": "app/routes/app.tsx?__remix-build-client-route",
+    "isEntry": true,
+    "imports": [
+      "_index-C_P7ACqV.js",
+      "_components-CWnDk2iX.js",
+      "_styles-sszvf9xV.js",
+      "_index-BecZrDTn.js",
+      "_context-Dmzg4qij.js"
+    ]
+  },
+  "app/routes/auth.$.tsx?__remix-build-client-route": {
+    "file": "assets/auth._-l0sNRNKZ.js",
+    "name": "auth._",
+    "src": "app/routes/auth.$.tsx?__remix-build-client-route",
+    "isEntry": true
+  },
+  "app/routes/auth.login/route.tsx?__remix-build-client-route": {
+    "file": "assets/route-Fexxcih8.js",
+    "name": "route",
+    "src": "app/routes/auth.login/route.tsx?__remix-build-client-route",
+    "isEntry": true,
+    "imports": [
+      "_index-C_P7ACqV.js",
+      "_styles-sszvf9xV.js",
+      "_components-CWnDk2iX.js",
+      "_Page-DlYNw5FZ.js",
+      "_context-Dmzg4qij.js"
+    ]
+  },
+  "app/routes/configurator.tsx?__remix-build-client-route": {
+    "file": "assets/configurator-DKJWzsiT.js",
+    "name": "configurator",
+    "src": "app/routes/configurator.tsx?__remix-build-client-route",
+    "isEntry": true,
+    "imports": [
+      "_index-C_P7ACqV.js",
+      "_components-CWnDk2iX.js"
+    ]
+  },
+  "app/routes/webhooks.app.scopes_update.tsx?__remix-build-client-route": {
+    "file": "assets/webhooks.app.scopes_update-l0sNRNKZ.js",
+    "name": "webhooks.app.scopes_update",
+    "src": "app/routes/webhooks.app.scopes_update.tsx?__remix-build-client-route",
+    "isEntry": true
+  },
+  "app/routes/webhooks.app.uninstalled.tsx?__remix-build-client-route": {
+    "file": "assets/webhooks.app.uninstalled-l0sNRNKZ.js",
+    "name": "webhooks.app.uninstalled",
+    "src": "app/routes/webhooks.app.uninstalled.tsx?__remix-build-client-route",
+    "isEntry": true
+  },
+  "node_modules/@remix-run/dev/dist/config/defaults/entry.client.tsx": {
+    "file": "assets/entry.client-DHT7f2_3.js",
+    "name": "entry.client",
+    "src": "node_modules/@remix-run/dev/dist/config/defaults/entry.client.tsx",
+    "isEntry": true,
+    "imports": [
+      "_index-C_P7ACqV.js",
+      "_components-CWnDk2iX.js"
+    ]
+  }
+}
