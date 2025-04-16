@@ -1,25 +1,37 @@
+# Node modules
 node_modules
 
-/.cache
-/build
+# Build Cache (lokal)
+.cache
+
+# Build-Ordner: Nur die relevanten server- und client-Dateien für Vercel erlauben
+!/build
+!/build/server
+!/build/server/index.js
+!/build/client
+!/build/client/**
+
+# Andere Build-Pfade ignorieren (falls versehentlich generiert)
 /app/build
 /public/build/
 /public/_dev
 /app/public/build
+
+# Prisma / lokale Datenbankdateien
 /prisma/dev.sqlite
 /prisma/dev.sqlite-journal
 database.sqlite
 
+# Umgebungsvariablen
 .env
 .env.*
 
-
-
-
-
+# Extensions: Nur fertige Bundles deployen
 /extensions/*/dist
 
-# Ignore shopify files created during app dev
+# Shopify generierte Dateien
 .shopify/*
 .shopify.lock
+
+# Vercel config
 .vercel
