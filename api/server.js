@@ -1,7 +1,8 @@
 import express from "express";
 import compression from "compression";
 import { createRequestHandler } from "@remix-run/express";
-import * as build from "../build/server/index.js";
+import * as build from "../build/index.js";
+
 
 const app = express();
 app.use(compression());
