@@ -1,5 +1,13 @@
 {
   "version": 2,
+  "functions": {
+    "api/server.js": {
+      "includeFiles": [
+        "build/server/index.js",
+        "build/client/**"
+      ]
+    }
+  },
   "builds": [
     {
       "src": "api/server.js",
