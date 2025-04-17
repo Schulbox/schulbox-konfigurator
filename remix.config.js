@@ -7,7 +7,8 @@ module.exports = {
       v3_throwAbortReason: true,
       v3_lazyRouteDiscovery: true,
       v3_singleFetch: false,
-      v3_routeConvention: "flat", // optional, abhängig von deiner Struktur
+      // ❌ Entferne diese Zeile oder stelle sie auf "routes"
+      // v3_routeConvention: "flat",
     },
   };
   
