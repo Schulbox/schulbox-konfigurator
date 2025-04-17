@@ -1,6 +1,7 @@
 import AuthForm from "./AuthForm";
 import { json } from "@remix-run/node";
-import { supabase } from "~/supabaseClient";
+import { supabase } from "../../supabaseClient";
+
 
 export const action = async ({ request }: any) => {
   const form = await request.formData();
