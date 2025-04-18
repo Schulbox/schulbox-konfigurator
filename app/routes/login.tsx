@@ -1,14 +1,12 @@
-import { useState } from 'react';
-import { supabase } from '../../supabaseClient'; // Stelle sicher, dass du Supabase importiert hast
-import { useActionData } from '@remix-run/react';
-import { useSearchParams } from "@remix-run/react";
+import { useState } from "react";
+import { useSearchParams } from "@remix-run/react"; // Für Redirect-Parameter
 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState<string | null>(null);
-  const [searchParams] = useSearchParams();
-  const redirectTo = searchParams.get("redirectTo") || "/"; // Default zurück zur Homepage, wenn kein redirectTo vorhanden ist
+  const [email, setEmail] = useState(""); // Zustand für Email
+  const [password, setPassword] = useState(""); // Zustand für Passwort
+  const [error, setError] = useState<string | null>(null); // Zustand für Fehlernachricht
+  const [searchParams] = useSearchParams(); // Hole Query-Parameter
+  const redirectTo = searchParams.get("redirectTo") || "/"; // Standardweiterleitung zur Homepage, falls kein Parameter vorhanden
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -41,14 +39,14 @@ export default function Login() {
         <input
           type="email"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) => setEmail(e.target.value)} // Aktualisiere den Zustand für die E-Mail
           placeholder="E-Mail"
           required
         />
         <input
           type="password"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(e) => setPassword(e.target.value)} // Aktualisiere den Zustand für das Passwort
           placeholder="Passwort"
           required
         />
