@@ -1,26 +1,25 @@
 // app/routes/_index.tsx
 
 import { Link } from "@remix-run/react";
+import { FC } from 'react';
+
+const Configurator: FC = () => {
+  return (
+    <div>
+      <h1>Schulbox Konfigurator 🎒</h1>
+      {/* Deine Konfigurator-Logik hier */}
+      <p>Füge die gewünschten Artikel zur Schulbox hinzu!</p>
+      <button>Schulbox erstellen</button>
+    </div>
+  );
+};
 
 export default function Home() {
   return (
     <main style={{ padding: "2rem", fontFamily: "system-ui, sans-serif" }}>
       <h1>Willkommen bei Schulbox 🎒</h1>
-      <p>Starte hier:</p>
-      <ul style={{ lineHeight: "2" }}>
-        <li>
-          <Link to="/login">🔐 Login</Link>
-        </li>
-        <li>
-          <Link to="/register">📝 Registrieren</Link>
-        </li>
-        <li>
-          <Link to="/profil">👤 Mein Profil</Link>
-        </li>
-        <li>
-          <Link to="/app">🧩 Zum App-Konfigurator (nur für Lehrkräfte)</Link>
-        </li>
-      </ul>
+      <p>Starte direkt mit dem Konfigurator:</p>
+      <Configurator />  {/* Der Konfigurator wird hier direkt eingebunden */}
     </main>
   );
 }
