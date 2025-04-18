@@ -1,0 +1,1 @@
+import{j as r}from"./jsx-runtime-0DLF9kdB.js";import t from"./AuthForm-BSRP701O.js";import"./components-CQPILEQA.js";import"./index-DPt4QELZ.js";import"./index-DNjveeGC.js";import"./index-D6BBZwr8.js";import"./index-c8PDHbrJ.js";function f(){return r.jsx(t,{mode:"register"})}export{f as default};

@@ -1,1 +1,0 @@
-import{j as r}from"./index-B3ts7GOF.js";import t from"./AuthForm-DHiY6zqV.js";import"./components-BMtjqD3P.js";import"./index-C38EnwDo.js";import"./index-BkUYTdRf.js";import"./index-CebVLIw1.js";function u(){return r.jsx(t,{mode:"register"})}export{u as default};

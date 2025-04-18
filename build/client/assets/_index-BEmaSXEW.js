@@ -1,0 +1,1 @@
+import{j as e}from"./jsx-runtime-0DLF9kdB.js";function r(){return e.jsxs("div",{children:[e.jsx("h1",{children:"Willkommen bei Schulbox!"}),e.jsx("p",{children:"Hier entsteht deine App für Lehrer:innen."})]})}export{r as default};
