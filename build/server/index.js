@@ -1,7 +1,7 @@
 import { jsx, jsxs, Fragment } from "react/jsx-runtime";
 import { PassThrough } from "stream";
 import { renderToPipeableStream } from "react-dom/server";
-import { RemixServer, Meta, Links, Outlet, ScrollRestoration, Scripts, useLoaderData, useFetcher, useActionData, Form, useNavigate, Link as Link$1, useRouteError } from "@remix-run/react";
+import { RemixServer, Meta, Links, Outlet, ScrollRestoration, Scripts, useLoaderData, useFetcher, useActionData, Form, useNavigate, useSearchParams, Link as Link$1, useRouteError } from "@remix-run/react";
 import { createReadableStreamFromReadable, json, redirect } from "@remix-run/node";
 import { isbot } from "isbot";
 import "@shopify/shopify-app-remix/adapters/node";
@@ -107,7 +107,7 @@ const route0 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProper
   __proto__: null,
   default: App$2
 }, Symbol.toStringTag, { value: "Module" }));
-const action$6 = async ({ request }) => {
+const action$5 = async ({ request }) => {
   const { payload, session, topic, shop } = await authenticate.webhook(request);
   console.log(`Received ${topic} webhook for ${shop}`);
   const current = payload.current;
@@ -125,9 +125,9 @@ const action$6 = async ({ request }) => {
 };
 const route1 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  action: action$6
+  action: action$5
 }, Symbol.toStringTag, { value: "Module" }));
-const action$5 = async ({ request }) => {
+const action$4 = async ({ request }) => {
   const { shop, session, topic } = await authenticate.webhook(request);
   console.log(`Received ${topic} webhook for ${shop}`);
   if (session) {
@@ -137,9 +137,9 @@ const action$5 = async ({ request }) => {
 };
 const route2 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  action: action$5
+  action: action$4
 }, Symbol.toStringTag, { value: "Module" }));
-const action$4 = async ({ request }) => {
+const action$3 = async ({ request }) => {
   var _a, _b;
   const { admin } = await authenticate.admin(request);
   try {
@@ -183,7 +183,7 @@ const action$4 = async ({ request }) => {
 };
 const route3 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  action: action$4
+  action: action$3
 }, Symbol.toStringTag, { value: "Module" }));
 function AdditionalPage() {
   return /* @__PURE__ */ jsxs(Page, { children: [
@@ -395,7 +395,7 @@ const loader$4 = async ({ request }) => {
   await authenticate.admin(request);
   return null;
 };
-const action$3 = async ({ request }) => {
+const action$2 = async ({ request }) => {
   const { admin } = await authenticate.admin(request);
   const color = ["Red", "Orange", "Yellow", "Green"][Math.floor(Math.random() * 4)];
   const response = await admin.graphql(
@@ -681,7 +681,7 @@ function Index() {
 }
 const route6 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  action: action$3,
+  action: action$2,
   default: Index,
   loader: loader$4
 }, Symbol.toStringTag, { value: "Module" }));
@@ -703,7 +703,7 @@ const loader$3 = async ({ request }) => {
   const errors = loginErrorMessage(await login(request));
   return { errors, polarisTranslations };
 };
-const action$2 = async ({ request }) => {
+const action$1 = async ({ request }) => {
   const errors = loginErrorMessage(await login(request));
   return {
     errors
@@ -734,7 +734,7 @@ function Auth() {
 }
 const route7 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  action: action$2,
+  action: action$1,
   default: Auth,
   links: links$1,
   loader: loader$3
@@ -763,7 +763,7 @@ const supabase = createClient(
   "https://smbtuojsbjkaewxnebas.supabase.co",
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNtYnR1b2pzYmprYWV3eG5lYmFzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ4MjM3NDgsImV4cCI6MjA2MDM5OTc0OH0.J_QuxddDBPpUsi-n3m0pOwfJr5Lz99sF94OQvfrZljk"
 );
-const action$1 = async ({ request }) => {
+const action = async ({ request }) => {
   const form2 = await request.formData();
   const email = form2.get("email");
   const password = form2.get("password");
@@ -781,7 +781,7 @@ function RegisterRoute() {
 }
 const route9 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  action: action$1,
+  action,
   default: RegisterRoute
 }, Symbol.toStringTag, { value: "Module" }));
 const loader$2 = async ({ request }) => {
@@ -802,9 +802,10 @@ function Profil() {
     async function loadProfile() {
       const { data: sessionData } = await supabase.auth.getSession();
       if (!sessionData.session) {
-        navigate("/login");
+        navigate(`/login?redirectTo=${window.location.pathname}`);
         return;
       }
+      const { data: { session } } = await supabase.auth.getSession();
       const user = sessionData.session.user;
       const { data, error } = await supabase.from("profiles").select("*").eq("user_id", user.id).single();
       if (error) {
@@ -910,31 +911,55 @@ const route13 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.definePrope
   default: App$1,
   loader: loader$1
 }, Symbol.toStringTag, { value: "Module" }));
-const action = async ({ request }) => {
-  const form2 = await request.formData();
-  const email = form2.get("email");
-  const password = form2.get("password");
-  const { error } = await supabase.auth.signInWithPassword({
-    email: String(email),
-    password: String(password)
-  });
-  if (error) return json({ error: error.message });
-  return null;
-};
-function LoginRoute() {
-  return /* @__PURE__ */ jsx(AuthForm, { mode: "login" });
+function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
+  const [searchParams] = useSearchParams();
+  const redirectTo = searchParams.get("redirectTo") || "/dashboard";
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const { error: error2 } = await supabase.auth.signInWithPassword({
+      email,
+      password
+    });
+    if (error2) {
+      setError(error2.message);
+    } else {
+      window.location.href = redirectTo;
+    }
+  };
+  return /* @__PURE__ */ jsxs("div", { children: [
+    /* @__PURE__ */ jsx("h2", { children: "Login" }),
+    /* @__PURE__ */ jsxs("form", { onSubmit: handleSubmit, children: [
+      /* @__PURE__ */ jsx(
+        "input",
+        {
+          type: "email",
+          value: email,
+          onChange: (e) => setEmail(e.target.value),
+          placeholder: "E-Mail",
+          required: true
+        }
+      ),
+      /* @__PURE__ */ jsx(
+        "input",
+        {
+          type: "password",
+          value: password,
+          onChange: (e) => setPassword(e.target.value),
+          placeholder: "Passwort",
+          required: true
+        }
+      ),
+      /* @__PURE__ */ jsx("button", { type: "submit", children: "Login" })
+    ] }),
+    error && /* @__PURE__ */ jsx("p", { style: { color: "red" }, children: error })
+  ] });
 }
 const route14 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  action,
-  default: LoginRoute
-}, Symbol.toStringTag, { value: "Module" }));
-function TestRoute() {
-  return /* @__PURE__ */ jsx("div", { children: "Testseite aktiv 🎉" });
-}
-const route15 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
-  __proto__: null,
-  default: TestRoute
+  default: Login
 }, Symbol.toStringTag, { value: "Module" }));
 const links = () => [{ rel: "stylesheet", href: polarisStyles }];
 const loader = async ({ request }) => {
@@ -957,7 +982,7 @@ function ErrorBoundary() {
 const headers = (headersArgs) => {
   return boundary.headers(headersArgs);
 };
-const route16 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+const route15 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
   ErrorBoundary,
   default: App,
@@ -965,7 +990,7 @@ const route16 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.definePrope
   links,
   loader
 }, Symbol.toStringTag, { value: "Module" }));
-const serverManifest = { "entry": { "module": "/assets/entry.client-DY14idWh.js", "imports": ["/assets/jsx-runtime-0DLF9kdB.js", "/assets/index-DPt4QELZ.js", "/assets/index-D6BBZwr8.js", "/assets/index-D6W9wfXS.js", "/assets/components-6rj1h1gw.js"], "css": [] }, "routes": { "root": { "id": "root", "parentId": void 0, "path": "", "index": void 0, "caseSensitive": void 0, "hasAction": false, "hasLoader": false, "hasClientAction": false, "hasClientLoader": false, "hasErrorBoundary": false, "module": "/assets/root-Du-1SDzr.js", "imports": ["/assets/jsx-runtime-0DLF9kdB.js", "/assets/index-DPt4QELZ.js", "/assets/index-D6BBZwr8.js", "/assets/index-D6W9wfXS.js", "/assets/components-6rj1h1gw.js"], "css": [] }, "routes/webhooks.app.scopes_update": { "id": "routes/webhooks.app.scopes_update", "parentId": "root", "path": "webhooks/app/scopes_update", "index": void 0, "caseSensitive": void 0, "hasAction": true, "hasLoader": false, "hasClientAction": false, "hasClientLoader": false, "hasErrorBoundary": false, "module": "/assets/webhooks.app.scopes_update-l0sNRNKZ.js", "imports": [], "css": [] }, "routes/webhooks.app.uninstalled": { "id": "routes/webhooks.app.uninstalled", "parentId": "root", "path": "webhooks/app/uninstalled", "index": void 0, "caseSensitive": void 0, "hasAction": true, "hasLoader": false, "hasClientAction": false, "hasClientLoader": false, "hasErrorBoundary": false, "module": "/assets/webhooks.app.uninstalled-l0sNRNKZ.js", "imports": [], "css": [] }, "routes/api.create-box": { "id": "routes/api.create-box", "parentId": "root", "path": "api/create-box", "index": void 0, "caseSensitive": void 0, "hasAction": true, "hasLoader": false, "hasClientAction": false, "hasClientLoader": false, "hasErrorBoundary": false, "module": "/assets/api.create-box-l0sNRNKZ.js", "imports": [], "css": [] }, "routes/app.additional": { "id": "routes/app.additional", "parentId": "routes/app", "path": "additional", "index": void 0, "caseSensitive": void 0, "hasAction": false, "hasLoader": false, "hasClientAction": false, "hasClientLoader": false, "hasErrorBoundary": false, "module": "/assets/app.additional-WmAzSiXw.js", "imports": ["/assets/jsx-runtime-0DLF9kdB.js", "/assets/index--ohlK8k9.js", "/assets/Page-DhXazjXL.js", "/assets/List-BkwxG2nr.js", "/assets/index-DPt4QELZ.js", "/assets/index-D6BBZwr8.js", "/assets/context-TNnJCYzF.js"], "css": [] }, "routes/configurator": { "id": "routes/configurator", "parentId": "root", "path": "configurator", "index": void 0, "caseSensitive": void 0, "hasAction": false, "hasLoader": true, "hasClientAction": false, "hasClientLoader": false, "hasErrorBoundary": false, "module": "/assets/configurator-dKA7669h.js", "imports": ["/assets/jsx-runtime-0DLF9kdB.js", "/assets/index-DPt4QELZ.js", "/assets/components-6rj1h1gw.js", "/assets/index-D6BBZwr8.js", "/assets/index-D6W9wfXS.js"], "css": [] }, "routes/app._index": { "id": "routes/app._index", "parentId": "routes/app", "path": void 0, "index": true, "caseSensitive": void 0, "hasAction": true, "hasLoader": true, "hasClientAction": false, "hasClientLoader": false, "hasErrorBoundary": false, "module": "/assets/app._index-CJSHYT8F.js", "imports": ["/assets/jsx-runtime-0DLF9kdB.js", "/assets/index-DPt4QELZ.js", "/assets/index--ohlK8k9.js", "/assets/components-6rj1h1gw.js", "/assets/Page-DhXazjXL.js", "/assets/List-BkwxG2nr.js", "/assets/index-D6BBZwr8.js", "/assets/index-D6W9wfXS.js", "/assets/context-TNnJCYzF.js"], "css": [] }, "routes/auth.login": { "id": "routes/auth.login", "parentId": "root", "path": "auth/login", "index": void 0, "caseSensitive": void 0, "hasAction": true, "hasLoader": true, "hasClientAction": false, "hasClientLoader": false, "hasErrorBoundary": false, "module": "/assets/route-Bncw4X9o.js", "imports": ["/assets/jsx-runtime-0DLF9kdB.js", "/assets/index-DPt4QELZ.js", "/assets/styles-BOErra0n.js", "/assets/components-6rj1h1gw.js", "/assets/Page-DhXazjXL.js", "/assets/context-TNnJCYzF.js", "/assets/index-D6BBZwr8.js", "/assets/index-D6W9wfXS.js"], "css": [] }, "routes/AuthForm": { "id": "routes/AuthForm", "parentId": "root", "path": "AuthForm", "index": void 0, "caseSensitive": void 0, "hasAction": false, "hasLoader": false, "hasClientAction": false, "hasClientLoader": false, "hasErrorBoundary": false, "module": "/assets/AuthForm-CWq5UHd3.js", "imports": ["/assets/jsx-runtime-0DLF9kdB.js", "/assets/components-6rj1h1gw.js", "/assets/index-DPt4QELZ.js", "/assets/index-D6BBZwr8.js", "/assets/index-D6W9wfXS.js"], "css": [] }, "routes/register": { "id": "routes/register", "parentId": "root", "path": "register", "index": void 0, "caseSensitive": void 0, "hasAction": true, "hasLoader": false, "hasClientAction": false, "hasClientLoader": false, "hasErrorBoundary": false, "module": "/assets/register-I9ZiFPkA.js", "imports": ["/assets/jsx-runtime-0DLF9kdB.js", "/assets/AuthForm-CWq5UHd3.js", "/assets/components-6rj1h1gw.js", "/assets/index-DPt4QELZ.js", "/assets/index-D6BBZwr8.js", "/assets/index-D6W9wfXS.js"], "css": [] }, "routes/auth.$": { "id": "routes/auth.$", "parentId": "root", "path": "auth/*", "index": void 0, "caseSensitive": void 0, "hasAction": false, "hasLoader": true, "hasClientAction": false, "hasClientLoader": false, "hasErrorBoundary": false, "module": "/assets/auth._-l0sNRNKZ.js", "imports": [], "css": [] }, "routes/logout": { "id": "routes/logout", "parentId": "root", "path": "logout", "index": void 0, "caseSensitive": void 0, "hasAction": false, "hasLoader": false, "hasClientAction": false, "hasClientLoader": false, "hasErrorBoundary": false, "module": "/assets/logout-l0sNRNKZ.js", "imports": [], "css": [] }, "routes/profil": { "id": "routes/profil", "parentId": "root", "path": "profil", "index": void 0, "caseSensitive": void 0, "hasAction": false, "hasLoader": false, "hasClientAction": false, "hasClientLoader": false, "hasErrorBoundary": false, "module": "/assets/profil-DeFTBAxG.js", "imports": ["/assets/jsx-runtime-0DLF9kdB.js", "/assets/index-DPt4QELZ.js", "/assets/index-D6W9wfXS.js"], "css": [] }, "routes/_index": { "id": "routes/_index", "parentId": "root", "path": void 0, "index": true, "caseSensitive": void 0, "hasAction": false, "hasLoader": true, "hasClientAction": false, "hasClientLoader": false, "hasErrorBoundary": false, "module": "/assets/route-DkFvbr9R.js", "imports": ["/assets/jsx-runtime-0DLF9kdB.js", "/assets/components-6rj1h1gw.js", "/assets/index-DPt4QELZ.js", "/assets/index-D6BBZwr8.js", "/assets/index-D6W9wfXS.js"], "css": ["/assets/route-Cnm7FvdT.css"] }, "routes/login": { "id": "routes/login", "parentId": "root", "path": "login", "index": void 0, "caseSensitive": void 0, "hasAction": true, "hasLoader": false, "hasClientAction": false, "hasClientLoader": false, "hasErrorBoundary": false, "module": "/assets/login-Ar2cgVm1.js", "imports": ["/assets/jsx-runtime-0DLF9kdB.js", "/assets/AuthForm-CWq5UHd3.js", "/assets/components-6rj1h1gw.js", "/assets/index-DPt4QELZ.js", "/assets/index-D6BBZwr8.js", "/assets/index-D6W9wfXS.js"], "css": [] }, "routes/test": { "id": "routes/test", "parentId": "root", "path": "test", "index": void 0, "caseSensitive": void 0, "hasAction": false, "hasLoader": false, "hasClientAction": false, "hasClientLoader": false, "hasErrorBoundary": false, "module": "/assets/test-Cs55TJoI.js", "imports": ["/assets/jsx-runtime-0DLF9kdB.js"], "css": [] }, "routes/app": { "id": "routes/app", "parentId": "root", "path": "app", "index": void 0, "caseSensitive": void 0, "hasAction": false, "hasLoader": true, "hasClientAction": false, "hasClientLoader": false, "hasErrorBoundary": true, "module": "/assets/app-CMKYTqNO.js", "imports": ["/assets/jsx-runtime-0DLF9kdB.js", "/assets/index-DPt4QELZ.js", "/assets/components-6rj1h1gw.js", "/assets/styles-BOErra0n.js", "/assets/index--ohlK8k9.js", "/assets/index-D6W9wfXS.js", "/assets/index-D6BBZwr8.js", "/assets/context-TNnJCYzF.js"], "css": [] } }, "url": "/assets/manifest-9365cf9b.js", "version": "9365cf9b" };
+const serverManifest = { "entry": { "module": "/assets/entry.client-CiESaanM.js", "imports": ["/assets/index-B3ts7GOF.js", "/assets/index-BkUYTdRf.js", "/assets/index-CebVLIw1.js", "/assets/index-C38EnwDo.js", "/assets/components-BMtjqD3P.js"], "css": [] }, "routes": { "root": { "id": "root", "parentId": void 0, "path": "", "index": void 0, "caseSensitive": void 0, "hasAction": false, "hasLoader": false, "hasClientAction": false, "hasClientLoader": false, "hasErrorBoundary": false, "module": "/assets/root-SdZ89jEf.js", "imports": ["/assets/index-B3ts7GOF.js", "/assets/index-BkUYTdRf.js", "/assets/index-CebVLIw1.js", "/assets/index-C38EnwDo.js", "/assets/components-BMtjqD3P.js"], "css": [] }, "routes/webhooks.app.scopes_update": { "id": "routes/webhooks.app.scopes_update", "parentId": "root", "path": "webhooks/app/scopes_update", "index": void 0, "caseSensitive": void 0, "hasAction": true, "hasLoader": false, "hasClientAction": false, "hasClientLoader": false, "hasErrorBoundary": false, "module": "/assets/webhooks.app.scopes_update-l0sNRNKZ.js", "imports": [], "css": [] }, "routes/webhooks.app.uninstalled": { "id": "routes/webhooks.app.uninstalled", "parentId": "root", "path": "webhooks/app/uninstalled", "index": void 0, "caseSensitive": void 0, "hasAction": true, "hasLoader": false, "hasClientAction": false, "hasClientLoader": false, "hasErrorBoundary": false, "module": "/assets/webhooks.app.uninstalled-l0sNRNKZ.js", "imports": [], "css": [] }, "routes/api.create-box": { "id": "routes/api.create-box", "parentId": "root", "path": "api/create-box", "index": void 0, "caseSensitive": void 0, "hasAction": true, "hasLoader": false, "hasClientAction": false, "hasClientLoader": false, "hasErrorBoundary": false, "module": "/assets/api.create-box-l0sNRNKZ.js", "imports": [], "css": [] }, "routes/app.additional": { "id": "routes/app.additional", "parentId": "routes/app", "path": "additional", "index": void 0, "caseSensitive": void 0, "hasAction": false, "hasLoader": false, "hasClientAction": false, "hasClientLoader": false, "hasErrorBoundary": false, "module": "/assets/app.additional-6rp91bly.js", "imports": ["/assets/index-B3ts7GOF.js", "/assets/index-BX_Ozi1w.js", "/assets/Page-BEGjlRVU.js", "/assets/List-BpoT0Xuu.js", "/assets/index-BkUYTdRf.js", "/assets/context-Dnjp4kKx.js"], "css": [] }, "routes/configurator": { "id": "routes/configurator", "parentId": "root", "path": "configurator", "index": void 0, "caseSensitive": void 0, "hasAction": false, "hasLoader": true, "hasClientAction": false, "hasClientLoader": false, "hasErrorBoundary": false, "module": "/assets/configurator-CDUT7F9s.js", "imports": ["/assets/index-B3ts7GOF.js", "/assets/components-BMtjqD3P.js", "/assets/index-C38EnwDo.js", "/assets/index-BkUYTdRf.js", "/assets/index-CebVLIw1.js"], "css": [] }, "routes/app._index": { "id": "routes/app._index", "parentId": "routes/app", "path": void 0, "index": true, "caseSensitive": void 0, "hasAction": true, "hasLoader": true, "hasClientAction": false, "hasClientLoader": false, "hasErrorBoundary": false, "module": "/assets/app._index-CTnTQdW9.js", "imports": ["/assets/index-B3ts7GOF.js", "/assets/index-BX_Ozi1w.js", "/assets/components-BMtjqD3P.js", "/assets/Page-BEGjlRVU.js", "/assets/List-BpoT0Xuu.js", "/assets/index-BkUYTdRf.js", "/assets/index-C38EnwDo.js", "/assets/index-CebVLIw1.js", "/assets/context-Dnjp4kKx.js"], "css": [] }, "routes/auth.login": { "id": "routes/auth.login", "parentId": "root", "path": "auth/login", "index": void 0, "caseSensitive": void 0, "hasAction": true, "hasLoader": true, "hasClientAction": false, "hasClientLoader": false, "hasErrorBoundary": false, "module": "/assets/route-TufXweCV.js", "imports": ["/assets/index-B3ts7GOF.js", "/assets/styles-D7QnGEGN.js", "/assets/components-BMtjqD3P.js", "/assets/Page-BEGjlRVU.js", "/assets/context-Dnjp4kKx.js", "/assets/index-C38EnwDo.js", "/assets/index-BkUYTdRf.js", "/assets/index-CebVLIw1.js"], "css": [] }, "routes/AuthForm": { "id": "routes/AuthForm", "parentId": "root", "path": "AuthForm", "index": void 0, "caseSensitive": void 0, "hasAction": false, "hasLoader": false, "hasClientAction": false, "hasClientLoader": false, "hasErrorBoundary": false, "module": "/assets/AuthForm-DHiY6zqV.js", "imports": ["/assets/index-B3ts7GOF.js", "/assets/components-BMtjqD3P.js", "/assets/index-C38EnwDo.js", "/assets/index-BkUYTdRf.js", "/assets/index-CebVLIw1.js"], "css": [] }, "routes/register": { "id": "routes/register", "parentId": "root", "path": "register", "index": void 0, "caseSensitive": void 0, "hasAction": true, "hasLoader": false, "hasClientAction": false, "hasClientLoader": false, "hasErrorBoundary": false, "module": "/assets/register-Dpm94EVt.js", "imports": ["/assets/index-B3ts7GOF.js", "/assets/AuthForm-DHiY6zqV.js", "/assets/components-BMtjqD3P.js", "/assets/index-C38EnwDo.js", "/assets/index-BkUYTdRf.js", "/assets/index-CebVLIw1.js"], "css": [] }, "routes/auth.$": { "id": "routes/auth.$", "parentId": "root", "path": "auth/*", "index": void 0, "caseSensitive": void 0, "hasAction": false, "hasLoader": true, "hasClientAction": false, "hasClientLoader": false, "hasErrorBoundary": false, "module": "/assets/auth._-l0sNRNKZ.js", "imports": [], "css": [] }, "routes/logout": { "id": "routes/logout", "parentId": "root", "path": "logout", "index": void 0, "caseSensitive": void 0, "hasAction": false, "hasLoader": false, "hasClientAction": false, "hasClientLoader": false, "hasErrorBoundary": false, "module": "/assets/logout-l0sNRNKZ.js", "imports": [], "css": [] }, "routes/profil": { "id": "routes/profil", "parentId": "root", "path": "profil", "index": void 0, "caseSensitive": void 0, "hasAction": false, "hasLoader": false, "hasClientAction": false, "hasClientLoader": false, "hasErrorBoundary": false, "module": "/assets/profil-C8j-n1qN.js", "imports": ["/assets/index-B3ts7GOF.js", "/assets/supabaseClient-BEBX1Wnj.js", "/assets/index-CebVLIw1.js"], "css": [] }, "routes/_index": { "id": "routes/_index", "parentId": "root", "path": void 0, "index": true, "caseSensitive": void 0, "hasAction": false, "hasLoader": true, "hasClientAction": false, "hasClientLoader": false, "hasErrorBoundary": false, "module": "/assets/route-CxkNbsYd.js", "imports": ["/assets/index-B3ts7GOF.js", "/assets/components-BMtjqD3P.js", "/assets/index-C38EnwDo.js", "/assets/index-BkUYTdRf.js", "/assets/index-CebVLIw1.js"], "css": ["/assets/route-Cnm7FvdT.css"] }, "routes/login": { "id": "routes/login", "parentId": "root", "path": "login", "index": void 0, "caseSensitive": void 0, "hasAction": false, "hasLoader": false, "hasClientAction": false, "hasClientLoader": false, "hasErrorBoundary": false, "module": "/assets/login-ZIFWjvlW.js", "imports": ["/assets/index-B3ts7GOF.js", "/assets/supabaseClient-BEBX1Wnj.js", "/assets/index-C38EnwDo.js", "/assets/index-BkUYTdRf.js", "/assets/index-CebVLIw1.js"], "css": [] }, "routes/app": { "id": "routes/app", "parentId": "root", "path": "app", "index": void 0, "caseSensitive": void 0, "hasAction": false, "hasLoader": true, "hasClientAction": false, "hasClientLoader": false, "hasErrorBoundary": true, "module": "/assets/app-C09FJ-5F.js", "imports": ["/assets/index-B3ts7GOF.js", "/assets/components-BMtjqD3P.js", "/assets/styles-D7QnGEGN.js", "/assets/index-BX_Ozi1w.js", "/assets/index-CebVLIw1.js", "/assets/index-C38EnwDo.js", "/assets/index-BkUYTdRf.js", "/assets/context-Dnjp4kKx.js"], "css": [] } }, "url": "/assets/manifest-88911f11.js", "version": "88911f11" };
 const mode = "production";
 const assetsBuildDirectory = "build\\client";
 const basename = "/";
@@ -1094,21 +1119,13 @@ const routes = {
     caseSensitive: void 0,
     module: route14
   },
-  "routes/test": {
-    id: "routes/test",
-    parentId: "root",
-    path: "test",
-    index: void 0,
-    caseSensitive: void 0,
-    module: route15
-  },
   "routes/app": {
     id: "routes/app",
     parentId: "root",
     path: "app",
     index: void 0,
     caseSensitive: void 0,
-    module: route16
+    module: route15
   }
 };
 export {
