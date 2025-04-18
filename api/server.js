@@ -55,7 +55,9 @@ app.post('/login', async (req, res) => {
     }
 
     // Login war erfolgreich
-    return res.status(200).json({ message: 'Login erfolgreich', user: data.user });
+    // Weiterleitung zum Shopify-Shop nach erfolgreichem Login
+    const redirectUrl = 'https://nqwde0-ua.myshopify.com'; // Shopify-Shop-URL hier eintragen
+    return res.redirect(redirectUrl); // Weiterleitung nach dem erfolgreichen Login
   } catch (err) {
     // Fehlerbehandlung bei unerwarteten Problemen
     console.error('Fehler beim Login:', err);
