@@ -2,12 +2,18 @@ import express from "express";
 import compression from "compression";
 import { createRequestHandler } from "@remix-run/express";
 import * as build from "../build/server/index.js";
-
-
-
-
+import cors from 'cors';
 
 const app = express();
+
+// CORS-Middleware hinzufügen, um Anfragen von der Domain zuzulassen
+app.use(cors({
+  origin: 'https://schulbox.at',  // Erlaubte Domain
+  methods: ['GET', 'POST'],      // Erlaubte Methoden
+  allowedHeaders: ['Content-Type', 'Authorization'],  // Erlaubte Header
+}));
+
+// Kompressions-Middleware hinzufügen
 app.use(compression());
 
 // WICHTIG: Header explizit setzen
