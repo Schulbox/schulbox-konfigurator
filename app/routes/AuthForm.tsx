@@ -7,8 +7,8 @@ export default function AuthForm({
 }: {
   mode: "login" | "register";
 }) {
-  const actionData = useActionData();
-
+  const actionData = useActionData<{ error?: string }>();
+  
   const isRegister = mode === "register";
 
   return (

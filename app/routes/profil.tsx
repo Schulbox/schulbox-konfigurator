@@ -12,9 +12,13 @@ export default function Profil() {
 
       if (!sessionData.session) {
         // Nicht eingeloggt → redirect nach /login
-        navigate("/login");
+        navigate(`/login?redirectTo=${window.location.pathname}`);
         return;
       }
+// beim Start deiner App oder in useEffect:
+const { data: { session } } = await supabase.auth.getSession();
+
+// session enthält den aktuellen User, wenn eingeloggt
 
       const user = sessionData.session.user;
 
