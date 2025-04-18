@@ -8,20 +8,29 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [searchParams] = useSearchParams();
-  const redirectTo = searchParams.get("redirectTo") || "/dashboard";
+  const redirectTo = searchParams.get("redirectTo") || "/"; // Default zurück zur Homepage, wenn kein redirectTo vorhanden ist
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
+    // Verwenden von fetch, um die Anfrage als JSON zu senden
+    const response = await fetch("/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json", // Wir senden JSON
+      },
+      body: JSON.stringify({
+        email,
+        password,
+      }),
     });
 
-    if (error) {
-      setError(error.message);
+    const data = await response.json();  // Wir erwarten JSON-Antwort
+
+    if (data.error) {
+      setError(data.error.message); // Wenn ein Fehler zurückgegeben wird, setzen wir diesen als Error
     } else {
-      window.location.href = redirectTo;
+      window.location.href = redirectTo; // Weiterleitung nach dem Login
     }
   };
 

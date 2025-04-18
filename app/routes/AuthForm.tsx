@@ -21,9 +21,14 @@ export default function AuthForm({
       )}
       <input name="email" type="email" placeholder="E-Mail" required />
       <input name="password" type="password" placeholder="Passwort" required />
+      
+      {/* Hier fügen wir das versteckte 'redirectTo' Feld hinzu */}
+      <input type="hidden" name="redirectTo" value={window.location.pathname} />
+      
       <button type="submit">
         {isRegister ? "Registrieren" : "Einloggen"}
       </button>
+      
       {actionData?.error && <p className="text-red-500">{actionData.error}</p>}
     </form>
   );

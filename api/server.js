@@ -1,21 +1,26 @@
 import express from 'express';
-import compression from 'compression';
 import { createRequestHandler } from '@remix-run/express';
 import * as build from '../build/server/index.js';
+import { createClient } from '@supabase/supabase-js';
+import compression from 'compression';
 import cors from 'cors';
-import { supabase } from '../supabaseClient'; // Versuche es mit der Dateiendung
-
 
 const app = express();
+
+// Initialisiere Supabase-Client
+const supabase = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_SECRET_KEY
+);
 
 // Verwende express.json(), um den Body als JSON zu verarbeiten
 app.use(express.json());
 
 // CORS-Middleware hinzufügen, um Anfragen von der Domain zuzulassen
 app.use(cors({
-  origin: 'https://schulbox.at',  // Erlaubte Domain
-  methods: ['GET', 'POST'],      // Erlaubte Methoden
-  allowedHeaders: ['Content-Type', 'Authorization'],  // Erlaubte Header
+  origin: 'https://schulbox.at',
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
 // Kompressions-Middleware hinzufügen
@@ -24,38 +29,36 @@ app.use(compression());
 // WICHTIG: Header explizit setzen
 app.use((req, res, next) => {
   res.setHeader("Content-Security-Policy", "frame-ancestors https://schulbox.at;");
-  res.removeHeader("X-Frame-Options"); // sicherstellen, dass X-Frame-Options nicht DENY ist
+  res.removeHeader("X-Frame-Options");
   next();
 });
 
-// Login-Route, um die Login-Daten zu verarbeiten
+// Login-Route für die Login-Daten
 app.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
+  // Überprüfen, ob sowohl E-Mail als auch Passwort angegeben sind
   if (!email || !password) {
-    console.error("Missing email or password"); // Fehlermeldung, wenn ein Parameter fehlt
     return res.status(400).json({ error: 'Email und Passwort sind erforderlich.' });
   }
 
   try {
-    console.log('Login Request:', { email, password });
-
-    // Authentifizierung mit Supabase
-    const { user, error } = await supabase.auth.signInWithPassword({
+    // Versuche, den Benutzer bei Supabase einzuloggen
+    const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
 
+    // Wenn ein Fehler beim Login auftritt
     if (error) {
-      console.error('Supabase Auth Error:', error.message); // Detaillierte Fehlernachricht
       return res.status(400).json({ error: error.message });
     }
 
-    // Erfolgreiche Anmeldung
-    console.log('Login Success:', { user });
-    return res.status(200).json({ message: 'Login erfolgreich', user });
+    // Login war erfolgreich
+    return res.status(200).json({ message: 'Login erfolgreich', user: data.user });
   } catch (err) {
-    console.error('Unexpected Error:', err); // Unerwartete Fehler werden hier ausgegeben
+    // Fehlerbehandlung bei unerwarteten Problemen
+    console.error('Fehler beim Login:', err);
     return res.status(500).json({ error: 'Es gab ein Problem bei der Anmeldung.' });
   }
 });
@@ -63,4 +66,5 @@ app.post('/login', async (req, res) => {
 // Remix handler für alle anderen Routen
 app.all("*", createRequestHandler({ build, mode: process.env.NODE_ENV }));
 
+// Server starten
 export default app;
