@@ -17,6 +17,6 @@
     "types": ["node"],
     "noEmit": true
   },
-  "include": ["app", "env.d.ts"],
+  "include": ["app", "env.d.ts", "api/server.js"],
   "exclude": ["node_modules"]
 }

@@ -1,6 +1,6 @@
 import express from 'express';
 import { createRequestHandler } from '@remix-run/express';
-import * as build from '../../../build/server/index.js';
+import * as build from '../build/server/index.js';
 import { createClient } from '@supabase/supabase-js';
 import compression from 'compression';
 import cors from 'cors';
