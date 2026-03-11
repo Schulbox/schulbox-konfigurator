@@ -100,9 +100,12 @@ export default function App() {
       const accessToken = localStorage.getItem("sb-access-token");
 
       if (!refreshToken || !accessToken) {
-        setIsLoggedIn(serverIsLoggedIn);
         if (serverIsLoggedIn && userEmail) {
+          setIsLoggedIn(true);
           setUser({ email: userEmail });
+        } else {
+          setIsLoggedIn(false);
+          setUser(null);
         }
         setIsLoading(false);
         return;
@@ -134,23 +137,39 @@ export default function App() {
         return;
       }
 
-      // Profil laden
-      const { data: profileData } = await supabase
+      // Profil laden (RPC, dann Fallback auf Tabelle, dann user_metadata)
+      let profile: any = null;
+
+      const { data: rpcData, error: rpcError } = await supabase
         .rpc("get_benutzer_profil", { user_id_param: authData.user.id });
 
-      const profile = profileData?.[0];
+      if (!rpcError && rpcData?.length > 0) {
+        profile = rpcData[0];
+      } else {
+        // Fallback: direkt aus benutzer-Tabelle lesen
+        const { data: tableData } = await supabase
+          .from("benutzer")
+          .select("*")
+          .eq("user_id", authData.user.id)
+          .single();
+        if (tableData) profile = tableData;
+      }
+
+      // Letzter Fallback: user_metadata aus Auth
+      const meta = authData.user.user_metadata || {};
+
       const userData: User = {
         email: authData.user.email,
-        role: profile?.role || "elternteil",
-        vorname: profile?.vorname,
-        nachname: profile?.nachname,
-        strasse: profile?.strasse,
-        hausnummer: profile?.hausnummer,
-        tuernummer: profile?.tuernummer,
-        stiege: profile?.stiege,
-        postleitzahl: profile?.postleitzahl,
-        ort: profile?.ort,
-        telefonnummer: profile?.telefonnummer,
+        role: profile?.role || meta?.role || "elternteil",
+        vorname: profile?.vorname || meta?.vorname || "",
+        nachname: profile?.nachname || meta?.nachname || "",
+        strasse: profile?.strasse || meta?.strasse || "",
+        hausnummer: profile?.hausnummer || meta?.hausnummer || "",
+        tuernummer: profile?.tuernummer || meta?.tuernummer || "",
+        stiege: profile?.stiege || meta?.stiege || "",
+        postleitzahl: profile?.postleitzahl || meta?.postleitzahl || "",
+        ort: profile?.ort || meta?.ort || "",
+        telefonnummer: profile?.telefonnummer || meta?.telefonnummer || "",
       };
 
       localStorage.setItem("user-profile-cache", JSON.stringify(userData));

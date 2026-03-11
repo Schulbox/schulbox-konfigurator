@@ -183,7 +183,7 @@ export default function Header({
                   <div className="w-6 h-6 rounded-full bg-brand-600/20 flex items-center justify-center">
                     <User size={12} className="text-brand-400" />
                   </div>
-                  <span className="max-w-[80px] truncate text-sm">{displayName}</span>
+                  <span className="max-w-[140px] truncate text-sm">{displayName}</span>
                   <motion.span animate={{ rotate: userMenuOpen ? 180 : 0 }} transition={{ duration: 0.2 }}>
                     <ChevronDown className="h-3 w-3 text-gray-500" />
                   </motion.span>
