@@ -1,0 +1,15 @@
+name = "Schulbox Konfigurator"
+client_id = "15d4e4981c4a7b8936f83ba81e11cad7"
+application_url = "https://schulbox-mvp.vercel.app"
+embedded = true
+
+[auth]
+redirect_urls = [
+  "https://schulbox-mvp.vercel.app/auth/callback"
+]
+
+[access_scopes]
+scopes = "read_products,write_products,write_customers,read_customers"
+
+[webhooks]
+api_version = "2023-10"

@@ -1,0 +1,42 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  @apply bg-white text-gray-900;
+}
+
+@layer base {
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="tel"],
+  input[type="number"],
+  select,
+  textarea {
+    @apply bg-white text-black border border-gray-300 rounded px-4 py-3 w-full placeholder-gray-500 text-base;
+    appearance: none;
+  }
+
+  input:focus,
+  select:focus,
+  textarea:focus {
+    @apply outline-none ring-2 ring-blue-500 border-blue-500;
+  }
+
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px white inset !important;
+    -webkit-text-fill-color: black !important;
+    caret-color: black !important;
+    transition: background-color 9999s ease-in-out 0s;
+  }
+
+  input:-moz-autofill {
+    box-shadow: 0 0 0 1000px white inset !important;
+    color: black !important;
+  }
+}

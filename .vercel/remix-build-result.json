@@ -1,0 +1,470 @@
+{
+  "buildManifest": {
+    "serverBundles": {
+      "nodejs-eyJydW50aW1lIjoibm9kZWpzIn0": {
+        "id": "nodejs-eyJydW50aW1lIjoibm9kZWpzIn0",
+        "file": "build/server/nodejs-eyJydW50aW1lIjoibm9kZWpzIn0/index.js",
+        "config": {
+          "runtime": "nodejs"
+        }
+      }
+    },
+    "routeIdToServerBundleId": {
+      "routes/api.erzeuge-schulbox": "nodejs-eyJydW50aW1lIjoibm9kZWpzIn0",
+      "routes/konfigurator.$handle": "nodejs-eyJydW50aW1lIjoibm9kZWpzIn0",
+      "routes/api.admin-settings": "nodejs-eyJydW50aW1lIjoibm9kZWpzIn0",
+      "routes/api.bestellungen": "nodejs-eyJydW50aW1lIjoibm9kZWpzIn0",
+      "routes/webshop.$handle": "nodejs-eyJydW50aW1lIjoibm9kZWpzIn0",
+      "routes/api.checkout": "nodejs-eyJydW50aW1lIjoibm9kZWpzIn0",
+      "routes/bestellungen": "nodejs-eyJydW50aW1lIjoibm9kZWpzIn0",
+      "routes/konfigurator": "nodejs-eyJydW50aW1lIjoibm9kZWpzIn0",
+      "routes/schulboxcart": "nodejs-eyJydW50aW1lIjoibm9kZWpzIn0",
+      "routes/api.schulen": "nodejs-eyJydW50aW1lIjoibm9kZWpzIn0",
+      "routes/datenschutz": "nodejs-eyJydW50aW1lIjoibm9kZWpzIn0",
+      "routes/api.logout": "nodejs-eyJydW50aW1lIjoibm9kZWpzIn0",
+      "routes/schulboxen": "nodejs-eyJydW50aW1lIjoibm9kZWpzIn0",
+      "routes/impressum": "nodejs-eyJydW50aW1lIjoibm9kZWpzIn0",
+      "routes/ueber-uns": "nodejs-eyJydW50aW1lIjoibm9kZWpzIn0",
+      "routes/warenkorb": "nodejs-eyJydW50aW1lIjoibm9kZWpzIn0",
+      "routes/register": "nodejs-eyJydW50aW1lIjoibm9kZWpzIn0",
+      "routes/widerruf": "nodejs-eyJydW50aW1lIjoibm9kZWpzIn0",
+      "routes/kontakt": "nodejs-eyJydW50aW1lIjoibm9kZWpzIn0",
+      "routes/webshop": "nodejs-eyJydW50aW1lIjoibm9kZWpzIn0",
+      "routes/logout": "nodejs-eyJydW50aW1lIjoibm9kZWpzIn0",
+      "routes/profil": "nodejs-eyJydW50aW1lIjoibm9kZWpzIn0",
+      "routes/_index": "nodejs-eyJydW50aW1lIjoibm9kZWpzIn0",
+      "routes/admin": "nodejs-eyJydW50aW1lIjoibm9kZWpzIn0",
+      "routes/login": "nodejs-eyJydW50aW1lIjoibm9kZWpzIn0",
+      "routes/agb": "nodejs-eyJydW50aW1lIjoibm9kZWpzIn0"
+    },
+    "routes": {
+      "root": {
+        "path": "",
+        "id": "root",
+        "file": "app/root.tsx",
+        "config": {}
+      },
+      "routes/api.erzeuge-schulbox": {
+        "file": "app/routes/api.erzeuge-schulbox.tsx",
+        "id": "routes/api.erzeuge-schulbox",
+        "path": "api/erzeuge-schulbox",
+        "parentId": "root",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "routes/konfigurator.$handle": {
+        "file": "app/routes/konfigurator.$handle.tsx",
+        "id": "routes/konfigurator.$handle",
+        "path": ":handle",
+        "parentId": "routes/konfigurator",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "routes/api.admin-settings": {
+        "file": "app/routes/api.admin-settings.tsx",
+        "id": "routes/api.admin-settings",
+        "path": "api/admin-settings",
+        "parentId": "root",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "routes/api.bestellungen": {
+        "file": "app/routes/api.bestellungen.tsx",
+        "id": "routes/api.bestellungen",
+        "path": "api/bestellungen",
+        "parentId": "root",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "routes/webshop.$handle": {
+        "file": "app/routes/webshop.$handle.tsx",
+        "id": "routes/webshop.$handle",
+        "path": ":handle",
+        "parentId": "routes/webshop",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "routes/api.checkout": {
+        "file": "app/routes/api.checkout.tsx",
+        "id": "routes/api.checkout",
+        "path": "api/checkout",
+        "parentId": "root",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "routes/bestellungen": {
+        "file": "app/routes/bestellungen.tsx",
+        "id": "routes/bestellungen",
+        "path": "bestellungen",
+        "parentId": "root",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "routes/konfigurator": {
+        "file": "app/routes/konfigurator.tsx",
+        "id": "routes/konfigurator",
+        "path": "konfigurator",
+        "parentId": "root",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "routes/schulboxcart": {
+        "file": "app/routes/schulboxcart.tsx",
+        "id": "routes/schulboxcart",
+        "path": "schulboxcart",
+        "parentId": "root",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "routes/api.schulen": {
+        "file": "app/routes/api.schulen.tsx",
+        "id": "routes/api.schulen",
+        "path": "api/schulen",
+        "parentId": "root",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "routes/datenschutz": {
+        "file": "app/routes/datenschutz.tsx",
+        "id": "routes/datenschutz",
+        "path": "datenschutz",
+        "parentId": "root",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "routes/api.logout": {
+        "file": "app/routes/api.logout.tsx",
+        "id": "routes/api.logout",
+        "path": "api/logout",
+        "parentId": "root",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "routes/schulboxen": {
+        "file": "app/routes/schulboxen.tsx",
+        "id": "routes/schulboxen",
+        "path": "schulboxen",
+        "parentId": "root",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "routes/impressum": {
+        "file": "app/routes/impressum.tsx",
+        "id": "routes/impressum",
+        "path": "impressum",
+        "parentId": "root",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "routes/ueber-uns": {
+        "file": "app/routes/ueber-uns.tsx",
+        "id": "routes/ueber-uns",
+        "path": "ueber-uns",
+        "parentId": "root",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "routes/warenkorb": {
+        "file": "app/routes/warenkorb.tsx",
+        "id": "routes/warenkorb",
+        "path": "warenkorb",
+        "parentId": "root",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "routes/register": {
+        "file": "app/routes/register.tsx",
+        "id": "routes/register",
+        "path": "register",
+        "parentId": "root",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "routes/widerruf": {
+        "file": "app/routes/widerruf.tsx",
+        "id": "routes/widerruf",
+        "path": "widerruf",
+        "parentId": "root",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "routes/kontakt": {
+        "file": "app/routes/kontakt.tsx",
+        "id": "routes/kontakt",
+        "path": "kontakt",
+        "parentId": "root",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "routes/webshop": {
+        "file": "app/routes/webshop.tsx",
+        "id": "routes/webshop",
+        "path": "webshop",
+        "parentId": "root",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "routes/logout": {
+        "file": "app/routes/logout.tsx",
+        "id": "routes/logout",
+        "path": "logout",
+        "parentId": "root",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "routes/profil": {
+        "file": "app/routes/profil.tsx",
+        "id": "routes/profil",
+        "path": "profil",
+        "parentId": "root",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "routes/_index": {
+        "file": "app/routes/_index.tsx",
+        "id": "routes/_index",
+        "index": true,
+        "parentId": "root",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "routes/admin": {
+        "file": "app/routes/admin.tsx",
+        "id": "routes/admin",
+        "path": "admin",
+        "parentId": "root",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "routes/login": {
+        "file": "app/routes/login.tsx",
+        "id": "routes/login",
+        "path": "login",
+        "parentId": "root",
+        "config": {
+          "runtime": "nodejs"
+        }
+      },
+      "routes/agb": {
+        "file": "app/routes/agb.tsx",
+        "id": "routes/agb",
+        "path": "agb",
+        "parentId": "root",
+        "config": {
+          "runtime": "nodejs"
+        }
+      }
+    }
+  },
+  "remixConfig": {
+    "appDirectory": "D:\\Projekte\\Schulbox\\Schulbox-Claude\\app",
+    "basename": "/",
+    "buildDirectory": "D:\\Projekte\\Schulbox\\Schulbox-Claude\\build",
+    "future": {
+      "v3_fetcherPersist": true,
+      "v3_relativeSplatPath": true,
+      "v3_throwAbortReason": true,
+      "v3_routeConfig": false,
+      "v3_singleFetch": true,
+      "v3_lazyRouteDiscovery": false,
+      "unstable_optimizeDeps": false
+    },
+    "manifest": false,
+    "publicPath": "/",
+    "routes": {
+      "root": {
+        "path": "",
+        "id": "root",
+        "file": "root.tsx"
+      },
+      "routes/api.erzeuge-schulbox": {
+        "file": "routes/api.erzeuge-schulbox.tsx",
+        "id": "routes/api.erzeuge-schulbox",
+        "path": "api/erzeuge-schulbox",
+        "parentId": "root"
+      },
+      "routes/konfigurator.$handle": {
+        "file": "routes/konfigurator.$handle.tsx",
+        "id": "routes/konfigurator.$handle",
+        "path": ":handle",
+        "parentId": "routes/konfigurator"
+      },
+      "routes/api.admin-settings": {
+        "file": "routes/api.admin-settings.tsx",
+        "id": "routes/api.admin-settings",
+        "path": "api/admin-settings",
+        "parentId": "root"
+      },
+      "routes/api.bestellungen": {
+        "file": "routes/api.bestellungen.tsx",
+        "id": "routes/api.bestellungen",
+        "path": "api/bestellungen",
+        "parentId": "root"
+      },
+      "routes/webshop.$handle": {
+        "file": "routes/webshop.$handle.tsx",
+        "id": "routes/webshop.$handle",
+        "path": ":handle",
+        "parentId": "routes/webshop"
+      },
+      "routes/api.checkout": {
+        "file": "routes/api.checkout.tsx",
+        "id": "routes/api.checkout",
+        "path": "api/checkout",
+        "parentId": "root"
+      },
+      "routes/bestellungen": {
+        "file": "routes/bestellungen.tsx",
+        "id": "routes/bestellungen",
+        "path": "bestellungen",
+        "parentId": "root"
+      },
+      "routes/konfigurator": {
+        "file": "routes/konfigurator.tsx",
+        "id": "routes/konfigurator",
+        "path": "konfigurator",
+        "parentId": "root"
+      },
+      "routes/schulboxcart": {
+        "file": "routes/schulboxcart.tsx",
+        "id": "routes/schulboxcart",
+        "path": "schulboxcart",
+        "parentId": "root"
+      },
+      "routes/api.schulen": {
+        "file": "routes/api.schulen.tsx",
+        "id": "routes/api.schulen",
+        "path": "api/schulen",
+        "parentId": "root"
+      },
+      "routes/datenschutz": {
+        "file": "routes/datenschutz.tsx",
+        "id": "routes/datenschutz",
+        "path": "datenschutz",
+        "parentId": "root"
+      },
+      "routes/api.logout": {
+        "file": "routes/api.logout.tsx",
+        "id": "routes/api.logout",
+        "path": "api/logout",
+        "parentId": "root"
+      },
+      "routes/schulboxen": {
+        "file": "routes/schulboxen.tsx",
+        "id": "routes/schulboxen",
+        "path": "schulboxen",
+        "parentId": "root"
+      },
+      "routes/impressum": {
+        "file": "routes/impressum.tsx",
+        "id": "routes/impressum",
+        "path": "impressum",
+        "parentId": "root"
+      },
+      "routes/ueber-uns": {
+        "file": "routes/ueber-uns.tsx",
+        "id": "routes/ueber-uns",
+        "path": "ueber-uns",
+        "parentId": "root"
+      },
+      "routes/warenkorb": {
+        "file": "routes/warenkorb.tsx",
+        "id": "routes/warenkorb",
+        "path": "warenkorb",
+        "parentId": "root"
+      },
+      "routes/register": {
+        "file": "routes/register.tsx",
+        "id": "routes/register",
+        "path": "register",
+        "parentId": "root"
+      },
+      "routes/widerruf": {
+        "file": "routes/widerruf.tsx",
+        "id": "routes/widerruf",
+        "path": "widerruf",
+        "parentId": "root"
+      },
+      "routes/kontakt": {
+        "file": "routes/kontakt.tsx",
+        "id": "routes/kontakt",
+        "path": "kontakt",
+        "parentId": "root"
+      },
+      "routes/webshop": {
+        "file": "routes/webshop.tsx",
+        "id": "routes/webshop",
+        "path": "webshop",
+        "parentId": "root"
+      },
+      "routes/logout": {
+        "file": "routes/logout.tsx",
+        "id": "routes/logout",
+        "path": "logout",
+        "parentId": "root"
+      },
+      "routes/profil": {
+        "file": "routes/profil.tsx",
+        "id": "routes/profil",
+        "path": "profil",
+        "parentId": "root"
+      },
+      "routes/_index": {
+        "file": "routes/_index.tsx",
+        "id": "routes/_index",
+        "index": true,
+        "parentId": "root"
+      },
+      "routes/admin": {
+        "file": "routes/admin.tsx",
+        "id": "routes/admin",
+        "path": "admin",
+        "parentId": "root"
+      },
+      "routes/login": {
+        "file": "routes/login.tsx",
+        "id": "routes/login",
+        "path": "login",
+        "parentId": "root"
+      },
+      "routes/agb": {
+        "file": "routes/agb.tsx",
+        "id": "routes/agb",
+        "path": "agb",
+        "parentId": "root"
+      }
+    },
+    "serverBuildFile": "index.js",
+    "serverModuleFormat": "esm",
+    "ssr": true
+  },
+  "viteConfig": {
+    "build": {
+      "assetsDir": "assets"
+    }
+  }
+}
