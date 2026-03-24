@@ -5,8 +5,9 @@ import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { ShoppingCart, Check, Truck, Package, ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
 import { getProductByHandle } from "~/lib/shopify.server";
+import { getAuthenticatedSupabase } from "~/lib/supabase.server";
 
-export async function loader({ params }: LoaderFunctionArgs) {
+export async function loader({ params, request }: LoaderFunctionArgs) {
   if (!params.handle) {
     throw new Response("Kein Produkt angegeben", { status: 400 });
   }
@@ -14,6 +15,22 @@ export async function loader({ params }: LoaderFunctionArgs) {
   if (!product) {
     throw new Response("Produkt nicht gefunden", { status: 404 });
   }
+
+  // Prüfen ob Lieferant deaktiviert ist
+  const { supabase } = await getAuthenticatedSupabase(request);
+  const { data: settings } = await supabase
+    .from("einstellungen")
+    .select("lieferant_pbs_aktiv, lieferant_koerner_aktiv")
+    .single();
+
+  const tags: string[] = product.tags || [];
+  if (settings?.lieferant_pbs_aktiv === false && tags.includes("pbs")) {
+    throw new Response("Produkt nicht verfügbar", { status: 404 });
+  }
+  if (settings?.lieferant_koerner_aktiv === false && tags.includes("körner")) {
+    throw new Response("Produkt nicht verfügbar", { status: 404 });
+  }
+
   return json(product);
 }
 

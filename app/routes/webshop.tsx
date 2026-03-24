@@ -7,16 +7,35 @@ import { useSearch } from "~/context/SearchContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { ShoppingCart, ArrowLeft, Check, Search, Package, SlidersHorizontal, X } from "lucide-react";
 import { getProducts } from "~/lib/shopify.server";
+import { getAuthenticatedSupabase } from "~/lib/supabase.server";
 
 export async function loader({ request }: LoaderFunctionArgs) {
-  const products = await getProducts(100);
+  const { supabase, response } = await getAuthenticatedSupabase(request);
+
+  // Lieferanten-Einstellungen laden
+  const { data: settings } = await supabase
+    .from("einstellungen")
+    .select("lieferant_pbs_aktiv, lieferant_koerner_aktiv")
+    .single();
+
+  const hiddenTags: string[] = [];
+  if (settings?.lieferant_pbs_aktiv === false) hiddenTags.push("pbs");
+  if (settings?.lieferant_koerner_aktiv === false) hiddenTags.push("körner");
+
+  const allProducts = await getProducts(100);
+
+  // Produkte von deaktivierten Lieferanten ausblenden
+  const products = allProducts.filter((p: any) => {
+    const tags: string[] = p.tags || [];
+    return !hiddenTags.some((ht) => tags.includes(ht));
+  });
 
   // Kategorien aus productType extrahieren
   const categories = Array.from(
     new Set(products.map((p: any) => p.productType).filter(Boolean))
   ) as string[];
 
-  return json({ products, categories });
+  return json({ products, categories }, { headers: response.headers });
 }
 
 export default function Webshop() {

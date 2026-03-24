@@ -130,5 +130,25 @@ export async function action({ request }: ActionFunctionArgs) {
     return json({ success: true, message: "Versandkosten aktualisiert" }, { headers: response.headers });
   }
 
+  if (_action === "toggle_lieferant") {
+    const lieferant = formData.get("lieferant") as string;
+    const aktiv = formData.get("aktiv") === "true";
+    const column = lieferant === "pbs" ? "lieferant_pbs_aktiv" : lieferant === "koerner" ? "lieferant_koerner_aktiv" : null;
+    if (!column) {
+      return json({ error: "Ungültiger Lieferant" }, { status: 400 });
+    }
+    const { error } = await supabase
+      .from("einstellungen")
+      .upsert({ id: 1, [column]: aktiv });
+    if (error) {
+      return json({ error: "Fehler beim Speichern" }, { status: 500 });
+    }
+    const label = lieferant === "pbs" ? "PBS" : "Körner";
+    return json(
+      { success: true, message: `${label} ${aktiv ? "aktiviert" : "deaktiviert"}` },
+      { headers: response.headers }
+    );
+  }
+
   return json({ error: "Unbekannte Aktion" }, { status: 400 });
 }

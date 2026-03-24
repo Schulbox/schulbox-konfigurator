@@ -3,7 +3,7 @@ import { useOutletContext, useFetcher } from "@remix-run/react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Settings, Save, Users, Package, Shield, CheckCircle, AlertCircle,
-  School, Trash2, Plus, ChevronDown, Truck, UserCheck, UserX, Search,
+  School, Trash2, Plus, ChevronDown, Truck, UserCheck, UserX, Search, Store,
 } from "lucide-react";
 
 type OutletContextType = {
@@ -29,7 +29,12 @@ type Schule = {
 };
 
 type AdminData = {
-  settings: { werkstatt_zuschlag: number; versandkosten: number } | null;
+  settings: {
+    werkstatt_zuschlag: number;
+    versandkosten: number;
+    lieferant_pbs_aktiv: boolean;
+    lieferant_koerner_aktiv: boolean;
+  } | null;
   benutzer: Benutzer[];
   schulen: Schule[];
 };
@@ -44,6 +49,10 @@ export default function AdminPanel() {
   const [zuschlag, setZuschlag] = useState("10");
   const [versandkosten, setVersandkosten] = useState("5.90");
   const [toast, setToast] = useState<{ type: "success" | "error"; message: string } | null>(null);
+
+  // Lieferanten
+  const [pbsAktiv, setPbsAktiv] = useState(true);
+  const [koernerAktiv, setKoernerAktiv] = useState(true);
 
   // User management
   const [userSearch, setUserSearch] = useState("");
@@ -64,6 +73,8 @@ export default function AdminPanel() {
     if (dataFetcher.data?.settings) {
       setZuschlag(String(dataFetcher.data.settings.werkstatt_zuschlag ?? 10));
       setVersandkosten(String(dataFetcher.data.settings.versandkosten ?? 5.90));
+      setPbsAktiv(dataFetcher.data.settings.lieferant_pbs_aktiv !== false);
+      setKoernerAktiv(dataFetcher.data.settings.lieferant_koerner_aktiv !== false);
     }
   }, [dataFetcher.data]);
 
@@ -116,6 +127,15 @@ export default function AdminPanel() {
   const handleSaveZuschlag = () => {
     fetcher.submit(
       { _action: "update_zuschlag", zuschlag },
+      { method: "post", action: "/api/admin-settings" }
+    );
+  };
+
+  const handleToggleLieferant = (lieferant: "pbs" | "koerner", aktiv: boolean) => {
+    if (lieferant === "pbs") setPbsAktiv(aktiv);
+    else setKoernerAktiv(aktiv);
+    fetcher.submit(
+      { _action: "toggle_lieferant", lieferant, aktiv: String(aktiv) },
       { method: "post", action: "/api/admin-settings" }
     );
   };
@@ -310,6 +330,60 @@ export default function AdminPanel() {
                 >
                   <Save className="w-4 h-4" /> Speichern
                 </button>
+              </div>
+            </div>
+
+            {/* Lieferanten */}
+            <div className="md:col-span-2 bg-white rounded-2xl border border-gray-100 p-6 md:p-8">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-10 h-10 rounded-xl bg-orange-100 flex items-center justify-center">
+                  <Store className="w-5 h-5 text-orange-600" />
+                </div>
+                <div>
+                  <h2 className="text-lg font-semibold text-gray-900">Lieferanten</h2>
+                  <p className="text-xs text-gray-500">Artikel eines Lieferanten im Shop ein- oder ausblenden</p>
+                </div>
+              </div>
+              <div className="space-y-4">
+                {/* PBS Toggle */}
+                <div className="flex items-center justify-between p-4 rounded-xl border border-gray-100 bg-gray-50">
+                  <div>
+                    <p className="text-sm font-medium text-gray-900">PBS</p>
+                    <p className="text-xs text-gray-500">Alle Artikel mit Tag "pbs"</p>
+                  </div>
+                  <button
+                    onClick={() => handleToggleLieferant("pbs", !pbsAktiv)}
+                    className={`relative inline-flex h-7 w-12 items-center rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-brand-500/20 ${
+                      pbsAktiv ? "bg-brand-500" : "bg-gray-300"
+                    }`}
+                  >
+                    <span
+                      className={`inline-block h-5 w-5 rounded-full bg-white shadow-sm transform transition-transform duration-200 ${
+                        pbsAktiv ? "translate-x-6" : "translate-x-1"
+                      }`}
+                    />
+                  </button>
+                </div>
+
+                {/* Körner Toggle */}
+                <div className="flex items-center justify-between p-4 rounded-xl border border-gray-100 bg-gray-50">
+                  <div>
+                    <p className="text-sm font-medium text-gray-900">Körner</p>
+                    <p className="text-xs text-gray-500">Alle Artikel mit Tag "körner"</p>
+                  </div>
+                  <button
+                    onClick={() => handleToggleLieferant("koerner", !koernerAktiv)}
+                    className={`relative inline-flex h-7 w-12 items-center rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-brand-500/20 ${
+                      koernerAktiv ? "bg-brand-500" : "bg-gray-300"
+                    }`}
+                  >
+                    <span
+                      className={`inline-block h-5 w-5 rounded-full bg-white shadow-sm transform transition-transform duration-200 ${
+                        koernerAktiv ? "translate-x-6" : "translate-x-1"
+                      }`}
+                    />
+                  </button>
+                </div>
               </div>
             </div>
 
