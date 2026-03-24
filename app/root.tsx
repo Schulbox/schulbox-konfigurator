@@ -123,7 +123,13 @@ export default function App() {
       const cacheTime = localStorage.getItem("user-profile-cache-time");
       if (cached && cacheTime && Date.now() - parseInt(cacheTime) < 5 * 60 * 1000) {
         try {
-          setUser(JSON.parse(cached));
+          const cachedUser = JSON.parse(cached);
+          // Server-Rolle hat Vorrang falls Cache veraltet ist
+          if (serverUserRole && cachedUser.role !== serverUserRole) {
+            cachedUser.role = serverUserRole;
+            localStorage.setItem("user-profile-cache", JSON.stringify(cachedUser));
+          }
+          setUser(cachedUser);
           setIsLoggedIn(true);
           setIsLoading(false);
           return;
@@ -167,7 +173,7 @@ export default function App() {
 
       const userData: User = {
         email: authData.user.email,
-        role: profile?.role || meta?.role || "elternteil",
+        role: profile?.role || meta?.role || serverUserRole || "elternteil",
         vorname: profile?.vorname || meta?.vorname || "",
         nachname: profile?.nachname || meta?.nachname || "",
         strasse: profile?.strasse || meta?.strasse || "",
