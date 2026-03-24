@@ -34,7 +34,13 @@ export type User = {
 } | null;
 
 export async function loader({ request }: LoaderFunctionArgs) {
-  const { isLoggedIn, user, response } = await getAuthenticatedSupabase(request);
+  const { supabase, isLoggedIn, user, response } = await getAuthenticatedSupabase(request);
+
+  let userRole: string | null = null;
+  if (isLoggedIn && user?.id) {
+    const profile = await getUserProfile(supabase, user.id);
+    userRole = profile?.role || null;
+  }
 
   return json(
     {
@@ -44,6 +50,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
       },
       isLoggedIn,
       userEmail: user?.email || null,
+      userRole,
     },
     { headers: response.headers }
   );
@@ -71,7 +78,7 @@ export function meta() {
 }
 
 export default function App() {
-  const { ENV, isLoggedIn: serverIsLoggedIn, userEmail } = useLoaderData<typeof loader>();
+  const { ENV, isLoggedIn: serverIsLoggedIn, userEmail, userRole: serverUserRole } = useLoaderData<typeof loader>();
   const [user, setUser] = useState<User>(null);
   const [isLoggedIn, setIsLoggedIn] = useState(serverIsLoggedIn);
   const [isLoading, setIsLoading] = useState(true);
@@ -102,7 +109,7 @@ export default function App() {
       if (!refreshToken || !accessToken) {
         if (serverIsLoggedIn && userEmail) {
           setIsLoggedIn(true);
-          setUser({ email: userEmail });
+          setUser({ email: userEmail, role: serverUserRole || undefined });
         } else {
           setIsLoggedIn(false);
           setUser(null);
@@ -184,7 +191,7 @@ export default function App() {
     } finally {
       setIsLoading(false);
     }
-  }, [ENV.SUPABASE_URL, ENV.SUPABASE_ANON_KEY, serverIsLoggedIn, userEmail]);
+  }, [ENV.SUPABASE_URL, ENV.SUPABASE_ANON_KEY, serverIsLoggedIn, userEmail, serverUserRole]);
 
   useEffect(() => {
     refreshAuth();

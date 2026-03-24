@@ -7,7 +7,6 @@ import { useSearch } from "~/context/SearchContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { ShoppingCart, ArrowLeft, Check, Search, Package, SlidersHorizontal, X } from "lucide-react";
 import { getProducts } from "~/lib/shopify.server";
-import DOMPurify from "dompurify";
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const products = await getProducts(100);
@@ -38,11 +37,8 @@ export default function Webshop() {
   const matches = useMatches();
   const isDetailPage = matches.some((m) => m.id?.includes("webshop.$handle"));
 
-  if (isDetailPage) {
-    return <Outlet />;
-  }
-
   const filteredProducts = useMemo(() => {
+    if (isDetailPage) return [];
     return products
       .filter((p: any) => {
         const query = searchQuery.toLowerCase();
@@ -64,7 +60,11 @@ export default function Webshop() {
         if (sortOption === "az") return a.title.localeCompare(b.title);
         return 0;
       });
-  }, [products, searchQuery, categoryFilter, sortOption]);
+  }, [products, searchQuery, categoryFilter, sortOption, isDetailPage]);
+
+  if (isDetailPage) {
+    return <Outlet />;
+  }
 
   const handleAddToCart = (product: any) => {
     const variantId = product.variants?.edges?.[0]?.node?.id;
