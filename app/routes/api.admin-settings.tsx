@@ -139,9 +139,10 @@ export async function action({ request }: ActionFunctionArgs) {
     }
     const { error } = await supabase
       .from("einstellungen")
-      .upsert({ id: 1, [column]: aktiv });
+      .update({ [column]: aktiv })
+      .eq("id", 1);
     if (error) {
-      return json({ error: "Fehler beim Speichern" }, { status: 500 });
+      return json({ error: "Fehler beim Speichern: " + error.message }, { status: 500 });
     }
     const label = lieferant === "pbs" ? "PBS" : "Körner";
     return json(
